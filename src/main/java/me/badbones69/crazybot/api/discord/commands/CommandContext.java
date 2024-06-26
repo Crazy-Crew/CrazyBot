@@ -59,6 +59,16 @@ public class CommandContext implements CommandActor {
     }
 
     @Override
+    public void reply(final String message) {
+        reply(message, false);
+    }
+
+    @Override
+    public void reply(final MessageEmbed message) {
+        reply(message, false);
+    }
+
+    @Override
     public final CommandContext defer(final boolean ephemeral) {
         if (isSlashActive()) {
             this.slash.deferReply(ephemeral).queue();

@@ -1,9 +1,14 @@
 package me.badbones69.crazybot.api.discord.commands;
 
 import me.badbones69.crazybot.api.discord.commands.interfaces.CommandActor;
+import me.badbones69.crazybot.api.discord.commands.interfaces.CommandArgs;
+import me.badbones69.crazybot.api.discord.util.RoleUtil;
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.SelfUser;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -12,7 +17,7 @@ import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
-public class CommandContext implements CommandActor {
+public class CommandContext implements CommandActor, CommandArgs {
 
     private SlashCommandInteractionEvent slash;
     private MessageReceivedEvent message;
@@ -134,5 +139,96 @@ public class CommandContext implements CommandActor {
     @Override
     public final JDA getJDA() {
         return isSlashActive() ? this.slash.getJDA() : this.message.getJDA();
+    }
+
+    @Override
+    public final int getArgAsInt(final int index, final String message, final boolean notifySender) {
+        int value = 1;
+
+        try {
+            value = Integer.parseInt(getArgs().get(index));
+        } catch (NumberFormatException exception) {
+            if (!notifySender) return value;
+
+            reply(message.replaceAll("%value%", getArgs().get(index)).replaceAll("%action%", "integer"));
+
+            return value;
+        }
+
+        return value;
+    }
+
+    @Override
+    public final float getArgAsFloat(final int index, final String message, final boolean notifySender) {
+        float value = 1F;
+
+        try {
+            value = Float.parseFloat(getArgs().get(index));
+        } catch (NumberFormatException exception) {
+            if (!notifySender) return value;
+
+            reply(message.replaceAll("%value%", getArgs().get(index)).replaceAll("%action%", "float"));
+
+            return value;
+        }
+
+        return value;
+    }
+
+    @Override
+    public final boolean getArgAsBoolean(final int index, final String message, final boolean notifySender) {
+        String value = getArgs().get(index).toLowerCase();
+
+        switch (value) {
+            case "true", "on", "1" -> {
+                return true;
+            }
+
+            case "false", "off", "0" -> {
+                return false;
+            }
+
+            default -> {
+                if (!notifySender) return false;
+
+                reply(message.replaceAll("%value%", getArgs().get(index)).replaceAll("%action%", "boolean"));
+
+                return false;
+            }
+        }
+    }
+
+    @Override
+    public final long getArgAsLong(final int index, final String message, final boolean notifySender) {
+        long value = 1L;
+
+        try {
+            value = Long.parseLong(getArgs().get(index));
+        } catch (NumberFormatException exception) {
+            if (!notifySender) return value;
+
+            reply(message.replaceAll("%value%", getArgs().get(index)).replaceAll("%action%", "long"));
+
+            return value;
+        }
+
+        return value;
+    }
+
+    @Override
+    public final double getArgAsDouble(final int index, final String message, final boolean notifySender) {
+        double value = 0.1;
+
+        try {
+            value = Double.parseDouble(getArgs().get(index));
+        } catch (NumberFormatException exception) {
+            if (!notifySender) return value;
+
+            reply(message.replaceAll("%value%", getArgs().get(index)).replaceAll("%action%", "double"));
+
+            return value;
+        }
+
+        return value;
     }
 }

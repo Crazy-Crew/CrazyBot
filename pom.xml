@@ -16,6 +16,10 @@
 
     <repositories>
         <repository>
+            <id>repo</id>
+            <url>https://repo.triumphteam.dev/snapshots/</url>
+        </repository>
+        <repository>
             <id>crazycrew-releases</id>
             <url>https://repo.crazycrew.us/releases</url>
         </repository>
@@ -27,11 +31,37 @@
 
     <dependencies>
         <dependency>
+            <groupId>net.dv8tion</groupId>
+            <artifactId>JDA</artifactId>
+            <version>5.0.0-beta.24</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>club.minnced</groupId>
+                    <artifactId>opus-java</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.Carleslc.Simple-YAML</groupId>
+            <artifactId>Simple-Yaml</artifactId>
+            <version>1.8.4</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ryderbelserion.vital</groupId>
+            <artifactId>core</artifactId>
+            <version>1.8</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!--<dependency>
             <groupId>com.ryderbelserion.vital</groupId>
             <artifactId>discord</artifactId>
             <version>1.8.2</version>
             <scope>compile</scope>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>org.jetbrains</groupId>
@@ -77,6 +107,12 @@
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.2.4</version>
                 <configuration>
+                    <relocations>
+                        <relocation>
+                            <pattern>dev.triumphteam.cmd</pattern>
+                            <shadedPattern>me.badbones69.crazybot.cmd</shadedPattern>
+                        </relocation>
+                    </relocations>
                     <artifactSet>
                         <includes>
                             <include>*</include>

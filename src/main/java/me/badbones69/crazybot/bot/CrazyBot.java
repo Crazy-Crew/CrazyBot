@@ -1,6 +1,6 @@
 package me.badbones69.crazybot.bot;
 
-import com.ryderbelserion.vital.discord.VitalDiscord;
+import me.badbones69.crazybot.api.discord.VitalDiscord;
 import me.badbones69.crazybot.api.util.LogUtil;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.requests.GatewayIntent;

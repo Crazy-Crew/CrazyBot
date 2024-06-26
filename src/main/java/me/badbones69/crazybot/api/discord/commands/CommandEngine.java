@@ -43,6 +43,8 @@ public abstract class CommandEngine extends ListenerAdapter {
 
         final CommandContext context = new CommandContext(event, StringUtil.getArguments(message.getContentRaw()));
 
+        if (!context.checkRequirements(this.permission, false)) return;
+
         perform(context);
     }
 

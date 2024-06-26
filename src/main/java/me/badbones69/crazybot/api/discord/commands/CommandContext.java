@@ -35,6 +35,27 @@ public class CommandContext implements CommandActor {
     public final boolean isMessageActive() {
         return this.message == null;
     }
+    public final boolean checkRequirements(final Permission permission, final boolean notifySender) {
+        if (this.message == null) return true;
+
+        final Member member = this.message.getGuild().getMemberById(getAuthor().getIdLong());
+
+        if (member == null) return true;
+
+        final Role role = RoleUtil.getHighestRole(member);
+
+        if (role == null) return true;
+
+        if (!role.hasPermission(permission)) {
+            if (notifySender) {
+                reply(String.format("You do not have permission to use this command! (%s)", permission.getName()));
+            }
+
+            return false;
+        }
+
+        return true;
+    }
 
     @Override
     public void reply(final String message, final boolean ephemeral) {

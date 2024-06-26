@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import org.jetbrains.annotations.Nullable;
+import java.util.List;
 
 public class CommandContext implements CommandActor {
 
@@ -20,9 +21,9 @@ public class CommandContext implements CommandActor {
         this.slash = slash;
     }
 
-    private String[] args;
+    private List<String> args;
 
-    public CommandContext(final MessageReceivedEvent message, final String[] args) {
+    public CommandContext(final MessageReceivedEvent message, final List<String> args) {
         this.message = message;
 
         this.args = args;
@@ -35,6 +36,11 @@ public class CommandContext implements CommandActor {
     public final boolean isMessageActive() {
         return this.message == null;
     }
+
+    public final List<String> getArgs() {
+        return this.args;
+    }
+
     public final boolean checkRequirements(final Permission permission, final boolean notifySender) {
         if (this.message == null) return true;
 

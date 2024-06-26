@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
+import java.util.List;
 
 public abstract class CommandEngine extends ListenerAdapter {
 
@@ -41,7 +42,7 @@ public abstract class CommandEngine extends ListenerAdapter {
 
         if (!message.getContentRaw().startsWith(this.name)) return;
 
-        final CommandContext context = new CommandContext(event, StringUtil.getArguments(message.getContentRaw()));
+        final CommandContext context = new CommandContext(event, List.of(StringUtil.getArguments(message.getContentRaw())));
 
         if (!context.checkRequirements(this.permission, false)) return;
 

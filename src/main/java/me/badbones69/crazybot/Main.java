@@ -10,17 +10,12 @@ public static void main() {
                     GatewayIntent.GUILD_MEMBERS,
                     GatewayIntent.GUILD_MESSAGES,
                     GatewayIntent.GUILD_PRESENCES,
-                    GatewayIntent.MESSAGE_CONTENT,
-                    GatewayIntent.SCHEDULED_EVENTS,
-                    GatewayIntent.GUILD_VOICE_STATES,
-                    GatewayIntent.GUILD_EMOJIS_AND_STICKERS
+
+
+                    GatewayIntent.MESSAGE_CONTENT
             ),
             List.of(
-                    CacheFlag.EMOJI,
-                    CacheFlag.STICKER,
-                    CacheFlag.ACTIVITY,
-                    CacheFlag.VOICE_STATE,
-                    CacheFlag.SCHEDULED_EVENTS
+                    CacheFlag.ACTIVITY
             ),
             "crazybot"
     ).start();

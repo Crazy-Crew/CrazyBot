@@ -2,6 +2,7 @@ package me.badbones69.crazybot.bot;
 
 import me.badbones69.crazybot.api.discord.VitalDiscord;
 import me.badbones69.crazybot.api.discord.commands.CommandHandler;
+import me.badbones69.crazybot.api.discord.util.files.FileManager;
 import me.badbones69.crazybot.api.util.LogUtil;
 import me.badbones69.crazybot.bot.commands.AboutCommand;
 import me.badbones69.crazybot.bot.managers.StorageManager;
@@ -16,6 +17,7 @@ public class CrazyBot extends VitalDiscord {
 
     private final CommandHandler commandHandler;
     private final StorageManager storageManager;
+    private final FileManager fileManager;
 
     public CrazyBot(@NotNull final String token, @NotNull final List<GatewayIntent> keys, @NotNull final List<CacheFlag> flags, @NotNull final String folder) {
         super(LogUtil.getLogger(), folder, token, keys, flags);
@@ -26,6 +28,8 @@ public class CrazyBot extends VitalDiscord {
         );
 
         this.storageManager = new StorageManager(getLogger(), getDirectory());
+
+        this.fileManager = new FileManager(this);
     }
 
     @Override
@@ -52,5 +56,9 @@ public class CrazyBot extends VitalDiscord {
 
     public final StorageManager getStorageManager() {
         return this.storageManager;
+    }
+
+    public final FileManager getFileManager() {
+        return this.fileManager;
     }
 }

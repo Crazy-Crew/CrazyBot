@@ -56,6 +56,12 @@ public class AboutCommand extends CommandEngine {
                     .footer(String.format("Average Ping: %s", jda.getGatewayPing()), bot.getAvatarUrl());
         }
 
+        embed.addField("Notice a Bug?", StringUtil.convertList(
+                List.of(
+                        "[Click me to submit a bug report](https://github.com/Crazy-Crew/CrazyBot/issues)"
+                )
+        ), false);
+
         context.reply(embed.build(), true);
     }
 }

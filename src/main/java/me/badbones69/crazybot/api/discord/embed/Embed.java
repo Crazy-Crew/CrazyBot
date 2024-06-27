@@ -13,7 +13,6 @@ import java.util.List;
 public class Embed {
 
     private final EmbedBuilder builder = new EmbedBuilder();
-    private final EmbedField field = new EmbedField(this.builder);
 
     /**
      * Sets the title of the embed.

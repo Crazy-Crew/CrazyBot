@@ -1,12 +1,12 @@
 package me.badbones69.crazybot.api.discord;
 
+import ch.qos.logback.classic.Logger;
 import me.badbones69.crazybot.api.discord.listeners.GenericListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
-import org.slf4j.Logger;
 import java.io.File;
 import java.util.List;
 

@@ -1,11 +1,11 @@
 package me.badbones69.crazybot.api.discord.util.files;
 
+import ch.qos.logback.classic.Logger;
 import com.ryderbelserion.vital.core.util.FileUtil;
 import me.badbones69.crazybot.api.discord.VitalDiscord;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.simpleyaml.configuration.file.YamlConfiguration;
-import org.slf4j.Logger;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;

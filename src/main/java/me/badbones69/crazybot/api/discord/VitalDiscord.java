@@ -14,7 +14,7 @@ public abstract class VitalDiscord {
 
     private final Logger logger;
     private final File file;
-    private final JDA jda;
+    protected final JDA jda;
 
     public VitalDiscord(final Logger logger, final String folder, final String token, final List<GatewayIntent> intents, final List<CacheFlag> flags) {
         this.logger = logger;
@@ -38,9 +38,5 @@ public abstract class VitalDiscord {
 
     public final Logger getLogger() {
         return this.logger;
-    }
-
-    protected final JDA getJDA() {
-        return this.jda;
     }
 }

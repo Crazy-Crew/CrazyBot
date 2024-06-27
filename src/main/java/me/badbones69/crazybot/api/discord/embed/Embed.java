@@ -18,7 +18,7 @@ public class Embed {
      * Sets the title of the embed.
      *
      * @param title the text in the title
-     * @return the embed class with updated information
+     * @return {@link Embed}
      */
     public final Embed title(final String title) {
         this.builder.setTitle(title);
@@ -31,7 +31,7 @@ public class Embed {
      *
      * @param text the text in the footer
      * @param icon the icon in the footer
-     * @return the embed class with updated information
+     * @return {@link Embed}
      */
     public final Embed footer(final String text, final String icon) {
         this.builder.setFooter(text, icon);
@@ -43,7 +43,7 @@ public class Embed {
      * Sets the footer using the user object.
      *
      * @param user the user in the footer
-     * @return the embed class with updated information
+     * @return {@link Embed}
      */
     public final Embed footer(final User user) {
         this.builder.setFooter("Requested by " + user.getAsMention(), user.getEffectiveAvatarUrl());
@@ -55,6 +55,7 @@ public class Embed {
      * Set the footer using the user object.
      *
      * @param user the member in question
+     * @return {@link Embed}
      */
     public final Embed footer(final User user, final Guild guild) {
         final Member member = guild.getMember(user);
@@ -72,7 +73,7 @@ public class Embed {
      * Sets the description of the embed.
      *
      * @param text the text to use
-     * @return the embed class with updated information
+     * @return {@link Embed}
      */
     public final Embed description(final String text) {
         this.builder.setDescription(text);
@@ -84,7 +85,7 @@ public class Embed {
      * Sets the thumbnail using a url.
      *
      * @param url the url to use
-     * @return the embed class with updated information
+     * @return {@link Embed}
      */
     public final Embed thumbnail(final String url) {
         this.builder.setThumbnail(url);
@@ -96,7 +97,7 @@ public class Embed {
      * Sets the thumbnail using a user object.
      *
      * @param user the user to use
-     * @return the embed class with updated information
+     * @return {@link Embed}
      */
     public final Embed thumbnail(final User user) {
         thumbnail(user.getEffectiveAvatarUrl());
@@ -109,6 +110,7 @@ public class Embed {
      *
      * @param user the member in question
      * @param guild fetch the member's guild avatar otherwise fetches global avatar
+     * @return {@link Embed}
      */
     public final Embed thumbnail(final User user, final Guild guild) {
         final Member member = guild.getMember(user);
@@ -126,7 +128,7 @@ public class Embed {
      * Sets the embed image using an url.
      *
      * @param url the url to use
-     * @return the embed class with updated information
+     * @return {@link Embed}
      */
     public final Embed image(final String url) {
         this.builder.setImage(url);
@@ -138,7 +140,7 @@ public class Embed {
      * Sets the embed image using a user object.
      *
      * @param user the user to use
-     * @return the embed class with updated information
+     * @return {@link Embed}
      */
     public final Embed image(final User user) {
         this.builder.setImage(user.getEffectiveAvatarUrl());
@@ -150,7 +152,7 @@ public class Embed {
      * Sets the thumbnail using a url.
      *
      * @param url the url to use
-     * @return the embed class with updated information
+     * @return {@link Embed}
      */
     public final Embed author(final String name, final String url) {
         this.builder.setAuthor(name, null, url);
@@ -162,7 +164,7 @@ public class Embed {
      * Sets the thumbnail using a user object.
      *
      * @param user the user to use
-     * @return the embed class with updated information
+     * @return {@link Embed}
      */
     public final Embed author(final User user) {
         author(user.getEffectiveName(), user.getEffectiveAvatarUrl());
@@ -175,11 +177,10 @@ public class Embed {
      *
      * @param user the member in question
      * @param guild fetch the member's guild avatar otherwise fetches global avatar
+     * @return {@link Embed}
      */
     public final Embed author(final User user, final Guild guild) {
         final Member member = guild.retrieveMemberById(user.getId()).complete();
-
-        if (member == null) return this;
 
         String avatar = member.getEffectiveAvatarUrl();
 
@@ -192,7 +193,7 @@ public class Embed {
      * Sets the color of the embed.
      *
      * @param color the color to use
-     * @return the embed class with updated information
+     * @return {@link Embed}
      */
     public final Embed color(final String color) {
         this.builder.setColor(ColorUtil.toColor(color));
@@ -215,7 +216,7 @@ public class Embed {
      * Sets the timezone in the embed.
      *
      * @param timezone the timezone to use for embeds
-     * @return the embed class with updated information
+     * @return {@link Embed}
      */
     public final Embed timestamp(final String timezone) {
         this.builder.setTimestamp(LocalDateTime.now().atZone(ZoneId.of(timezone)));

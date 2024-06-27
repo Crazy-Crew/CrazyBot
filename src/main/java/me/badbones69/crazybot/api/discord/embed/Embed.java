@@ -177,7 +177,7 @@ public class Embed {
      * @param guild fetch the member's guild avatar otherwise fetches global avatar
      */
     public final Embed author(final User user, final Guild guild) {
-        final Member member = guild.getMember(user);
+        final Member member = guild.retrieveMemberById(user.getId()).complete();
 
         if (member == null) return this;
 

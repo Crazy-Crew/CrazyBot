@@ -223,8 +223,53 @@ public class Embed {
         return this;
     }
 
-    public final Embed fields(List<MessageEmbed.Field> fields) {
-        fields.forEach(this.field::field);
+    /**
+     * Adds a field using Strings.
+     *
+     * @param title  the title of the embed
+     * @param body   the text for the field description
+     * @param inline whether the field should be inline
+     * @return {@link Embed}
+     */
+    public Embed addField(final String title, final String body, final boolean inline) {
+        this.builder.addField(title, body, inline);
+
+        return this;
+    }
+
+    /**
+     * Adds a field based on the field object.
+     *
+     * @param field the field object containing all the information we need
+     * @return {@link Embed}
+     */
+    public Embed addField(final MessageEmbed.Field field) {
+        addField(field.getName(), field.getValue(), field.isInline());
+
+        return this;
+    }
+
+    /**
+     * Adds a field using Strings.
+     *
+     * @param title the title of the embed
+     * @param body  the text for the field description
+     * @return {@link Embed}
+     */
+    public Embed addField(final String title, final String body) {
+        addField(title, body, false);
+
+        return this;
+    }
+
+    /**
+     * Adds a blank field.
+     *
+     * @param blankField blank field
+     * @return {@link Embed}
+     */
+    public Embed addEmptyField(final boolean blankField) {
+        this.builder.addBlankField(blankField);
 
         return this;
     }

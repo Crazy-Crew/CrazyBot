@@ -8,7 +8,6 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.List;
 
 public class Embed {
 
@@ -46,7 +45,7 @@ public class Embed {
      * @return {@link Embed}
      */
     public final Embed footer(final User user) {
-        this.builder.setFooter("Requested by " + user.getAsMention(), user.getEffectiveAvatarUrl());
+        this.builder.setFooter(String.format("Requested by %s", user.getAsMention()), user.getEffectiveAvatarUrl());
 
         return this;
     }
@@ -64,7 +63,7 @@ public class Embed {
 
         String avatar = member.getEffectiveAvatarUrl();
 
-        this.builder.setFooter("Requested by " + user.getAsMention(), avatar);
+        this.builder.setFooter(String.format("Requested by %s", user.getAsMention()), avatar);
 
         return this;
     }

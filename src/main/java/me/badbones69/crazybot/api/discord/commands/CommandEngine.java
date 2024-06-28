@@ -1,6 +1,6 @@
 package me.badbones69.crazybot.api.discord.commands;
 
-import me.badbones69.crazybot.api.discord.util.StringUtil;
+import me.badbones69.crazybot.api.discord.util.MsgUtil;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -43,9 +43,9 @@ public abstract class CommandEngine extends ListenerAdapter {
 
         final Message message = event.getMessage();
 
-        if (!message.getContentRaw().startsWith(CommandHandler.getCommandPrefix() + this.name)) return;
+        //if (!message.getContentRaw().startsWith(CommandHandler.getCommandPrefix() + this.name)) return;
 
-        final CommandContext context = new CommandContext(event, List.of(StringUtil.getArguments(message.getContentRaw())));
+        final CommandContext context = new CommandContext(event, List.of(MsgUtil.getArguments(message.getContentRaw())));
 
         if (!context.checkRequirements(this.permission, false)) return;
 

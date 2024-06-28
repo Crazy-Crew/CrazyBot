@@ -2,8 +2,7 @@ package me.badbones69.crazybot.bot;
 
 import me.badbones69.crazybot.api.discord.VitalDiscord;
 import me.badbones69.crazybot.api.discord.commands.CommandHandler;
-import me.badbones69.crazybot.api.discord.util.files.FileManager;
-import me.badbones69.crazybot.api.util.LogUtil;
+import me.badbones69.crazybot.bot.util.LogUtil;
 import me.badbones69.crazybot.bot.commands.AboutCommand;
 import me.badbones69.crazybot.bot.managers.StorageManager;
 import net.dv8tion.jda.api.Permission;
@@ -17,19 +16,17 @@ public class CrazyBot extends VitalDiscord {
 
     private final CommandHandler commandHandler;
     private final StorageManager storageManager;
-    private final FileManager fileManager;
 
-    public CrazyBot(@NotNull final String token, @NotNull final List<GatewayIntent> keys, @NotNull final List<CacheFlag> flags, @NotNull final String folder) {
+    private final String prefix;
+
+    public CrazyBot(@NotNull final String token, @NotNull final String prefix, @NotNull final List<GatewayIntent> keys, @NotNull final List<CacheFlag> flags, @NotNull final String folder) {
         super(LogUtil.getLogger(), folder, token, keys, flags);
 
-        this.commandHandler = new CommandHandler(
-                "!",
-                this.jda
-        );
+        this.commandHandler = new CommandHandler(this.jda);
 
         this.storageManager = new StorageManager(getLogger(), getDirectory());
 
-        this.fileManager = new FileManager(this);
+        this.prefix = prefix;
     }
 
     @Override
@@ -39,7 +36,7 @@ public class CrazyBot extends VitalDiscord {
 
     @Override
     public void start() {
-        getDirectory().mkdir();
+
     }
 
     @Override
@@ -56,9 +53,5 @@ public class CrazyBot extends VitalDiscord {
 
     public final StorageManager getStorageManager() {
         return this.storageManager;
-    }
-
-    public final FileManager getFileManager() {
-        return this.fileManager;
     }
 }

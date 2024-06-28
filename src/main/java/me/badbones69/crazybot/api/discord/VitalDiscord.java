@@ -14,6 +14,7 @@ public abstract class VitalDiscord {
 
     private final Logger logger;
     private final File file;
+
     protected final JDA jda;
 
     public VitalDiscord(final Logger logger, final String folder, final String token, final List<GatewayIntent> intents, final List<CacheFlag> flags) {

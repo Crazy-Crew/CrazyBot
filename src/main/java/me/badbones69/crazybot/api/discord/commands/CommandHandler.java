@@ -12,14 +12,10 @@ public class CommandHandler implements CommandFlow {
 
     private final ConcurrentHashMap<String, CommandEngine> commands = new ConcurrentHashMap<>();
 
-    public static String prefix;
-
     private final JDA jda;
     private Guild guild;
 
-    public CommandHandler(final String prefix, final JDA jda) {
-        CommandHandler.prefix = prefix;
-
+    public CommandHandler(final JDA jda) {
         this.jda = jda;
     }
 
@@ -29,10 +25,6 @@ public class CommandHandler implements CommandFlow {
 
     public final Guild getGuild() {
         return this.guild;
-    }
-
-    public static String getCommandPrefix() {
-        return prefix;
     }
 
     @Override

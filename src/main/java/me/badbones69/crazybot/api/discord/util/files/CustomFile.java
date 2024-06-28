@@ -1,15 +1,13 @@
 package me.badbones69.crazybot.api.discord.util.files;
 
-import ch.qos.logback.classic.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.simpleyaml.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 /**
- * Builds a custom file to load with the File Manager
+ * Builds a custom file to load with the File Manager.
  *
  * @author Ryder Belserion
  * @version 1.8
@@ -20,7 +18,6 @@ public class CustomFile {
     private YamlConfiguration configuration = null;
 
     private final File directory;
-    private final Logger logger;
 
     private String strippedName = "";
     private String fileName = "";
@@ -31,8 +28,7 @@ public class CustomFile {
      *
      * @param directory the directory
      */
-    public CustomFile(@NotNull final Logger logger, @NotNull final File directory) {
-        this.logger = logger;
+    public CustomFile(@NotNull final File directory) {
         this.directory = directory;
     }
 
@@ -43,14 +39,7 @@ public class CustomFile {
      * @return {@link CustomFile}
      */
     public @Nullable final CustomFile apply(@NotNull final String fileName) {
-        if (fileName.isEmpty()) {
-            List.of(
-                    "The file name cannot be empty!",
-                    String.format("File Name %s", fileName)
-            ).forEach(this.logger::error);
-
-            return null;
-        }
+        if (fileName.isEmpty()) return null;
 
         this.strippedName = fileName.replace(".yml", "");
         this.fileName = fileName;
@@ -58,11 +47,9 @@ public class CustomFile {
         this.file = new File(this.directory, this.fileName);
 
         try {
-            this.logger.info(String.format("Loading %s.yml", this.strippedName));
-
             this.configuration = YamlConfiguration.loadConfiguration(this.file);
         } catch (Exception exception) {
-            this.logger.error(String.format("Failed to load or create %s.yml...", this.strippedName));
+            exception.printStackTrace();
         }
 
         return this;
@@ -124,7 +111,7 @@ public class CustomFile {
         try {
             this.configuration.save(this.file);
         } catch (IOException exception) {
-            this.logger.error(String.format("Could not save %s.yml", this.strippedName));
+            exception.printStackTrace();
         }
     }
 
@@ -139,7 +126,7 @@ public class CustomFile {
         try {
             this.configuration = YamlConfiguration.loadConfiguration(this.file);
         } catch (Exception exception) {
-            this.logger.error(String.format("Could not reload %s.yml", this.strippedName));
+            exception.printStackTrace();
         }
     }
 }

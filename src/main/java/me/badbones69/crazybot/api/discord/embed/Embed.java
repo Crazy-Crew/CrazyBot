@@ -1,6 +1,6 @@
 package me.badbones69.crazybot.api.discord.embed;
 
-import me.badbones69.crazybot.api.discord.util.ColorUtil;
+import com.ryderbelserion.vital.core.util.ColorUtil;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -17,7 +17,7 @@ public class Embed {
      * Sets the title of the embed.
      *
      * @param title the text in the title
-     * @return {@link Embed}
+     * @return the embed class with updated information
      */
     public final Embed title(final String title) {
         this.builder.setTitle(title);
@@ -30,7 +30,7 @@ public class Embed {
      *
      * @param text the text in the footer
      * @param icon the icon in the footer
-     * @return {@link Embed}
+     * @return the embed class with updated information
      */
     public final Embed footer(final String text, final String icon) {
         this.builder.setFooter(text, icon);
@@ -42,7 +42,7 @@ public class Embed {
      * Sets the footer using the user object.
      *
      * @param user the user in the footer
-     * @return {@link Embed}
+     * @return the embed class with updated information
      */
     public final Embed footer(final User user) {
         this.builder.setFooter(String.format("Requested by %s", user.getAsMention()), user.getEffectiveAvatarUrl());
@@ -54,7 +54,6 @@ public class Embed {
      * Set the footer using the user object.
      *
      * @param user the member in question
-     * @return {@link Embed}
      */
     public final Embed footer(final User user, final Guild guild) {
         final Member member = guild.getMember(user);
@@ -72,7 +71,7 @@ public class Embed {
      * Sets the description of the embed.
      *
      * @param text the text to use
-     * @return {@link Embed}
+     * @return the embed class with updated information
      */
     public final Embed description(final String text) {
         this.builder.setDescription(text);
@@ -84,7 +83,7 @@ public class Embed {
      * Sets the thumbnail using a url.
      *
      * @param url the url to use
-     * @return {@link Embed}
+     * @return the embed class with updated information
      */
     public final Embed thumbnail(final String url) {
         this.builder.setThumbnail(url);
@@ -96,7 +95,7 @@ public class Embed {
      * Sets the thumbnail using a user object.
      *
      * @param user the user to use
-     * @return {@link Embed}
+     * @return the embed class with updated information
      */
     public final Embed thumbnail(final User user) {
         thumbnail(user.getEffectiveAvatarUrl());
@@ -109,7 +108,6 @@ public class Embed {
      *
      * @param user the member in question
      * @param guild fetch the member's guild avatar otherwise fetches global avatar
-     * @return {@link Embed}
      */
     public final Embed thumbnail(final User user, final Guild guild) {
         final Member member = guild.getMember(user);
@@ -127,7 +125,7 @@ public class Embed {
      * Sets the embed image using an url.
      *
      * @param url the url to use
-     * @return {@link Embed}
+     * @return the embed class with updated information
      */
     public final Embed image(final String url) {
         this.builder.setImage(url);
@@ -139,7 +137,7 @@ public class Embed {
      * Sets the embed image using a user object.
      *
      * @param user the user to use
-     * @return {@link Embed}
+     * @return the embed class with updated information
      */
     public final Embed image(final User user) {
         this.builder.setImage(user.getEffectiveAvatarUrl());
@@ -151,7 +149,7 @@ public class Embed {
      * Sets the thumbnail using a url.
      *
      * @param url the url to use
-     * @return {@link Embed}
+     * @return the embed class with updated information
      */
     public final Embed author(final String name, final String url) {
         this.builder.setAuthor(name, null, url);
@@ -163,7 +161,7 @@ public class Embed {
      * Sets the thumbnail using a user object.
      *
      * @param user the user to use
-     * @return {@link Embed}
+     * @return the embed class with updated information
      */
     public final Embed author(final User user) {
         author(user.getEffectiveName(), user.getEffectiveAvatarUrl());
@@ -176,7 +174,6 @@ public class Embed {
      *
      * @param user the member in question
      * @param guild fetch the member's guild avatar otherwise fetches global avatar
-     * @return {@link Embed}
      */
     public final Embed author(final User user, final Guild guild) {
         final Member member = guild.retrieveMemberById(user.getId()).complete();
@@ -192,7 +189,7 @@ public class Embed {
      * Sets the color of the embed.
      *
      * @param color the color to use
-     * @return {@link Embed}
+     * @return the embed class with updated information
      */
     public final Embed color(final String color) {
         this.builder.setColor(ColorUtil.toColor(color));
@@ -215,7 +212,7 @@ public class Embed {
      * Sets the timezone in the embed.
      *
      * @param timezone the timezone to use for embeds
-     * @return {@link Embed}
+     * @return the embed class with updated information
      */
     public final Embed timestamp(final String timezone) {
         this.builder.setTimestamp(LocalDateTime.now().atZone(ZoneId.of(timezone)));
@@ -226,10 +223,9 @@ public class Embed {
     /**
      * Adds a field using Strings.
      *
-     * @param title  the title of the embed
-     * @param body   the text for the field description
+     * @param title the title of the embed
+     * @param body the text for the field description
      * @param inline whether the field should be inline
-     * @return {@link Embed}
      */
     public Embed addField(final String title, final String body, final boolean inline) {
         this.builder.addField(title, body, inline);
@@ -241,7 +237,6 @@ public class Embed {
      * Adds a field based on the field object.
      *
      * @param field the field object containing all the information we need
-     * @return {@link Embed}
      */
     public Embed addField(final MessageEmbed.Field field) {
         addField(field.getName(), field.getValue(), field.isInline());
@@ -253,8 +248,7 @@ public class Embed {
      * Adds a field using Strings.
      *
      * @param title the title of the embed
-     * @param body  the text for the field description
-     * @return {@link Embed}
+     * @param body the text for the field description
      */
     public Embed addField(final String title, final String body) {
         addField(title, body, false);
@@ -262,11 +256,11 @@ public class Embed {
         return this;
     }
 
+
     /**
      * Adds a blank field.
      *
      * @param blankField blank field
-     * @return {@link Embed}
      */
     public Embed addEmptyField(final boolean blankField) {
         this.builder.addBlankField(blankField);

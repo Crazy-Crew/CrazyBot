@@ -1,14 +1,10 @@
 package me.badbones69.crazybot.api.discord.util.files;
 
-import ch.qos.logback.classic.Logger;
 import com.ryderbelserion.vital.core.util.FileUtil;
-import me.badbones69.crazybot.api.discord.VitalDiscord;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.simpleyaml.configuration.file.YamlConfiguration;
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.HashMap;
@@ -17,7 +13,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * A file manager that handles yml configs
+ * A file manager that handles yml configs.
  *
  * @author Ryder Belserion
  * @author BadBones69
@@ -28,20 +24,16 @@ import java.util.Set;
 public class FileManager {
 
     private final File dataFolder;
-    private final Logger logger;
 
     /**
      * An empty constructor that does fuck all.
      */
-    public FileManager(VitalDiscord vital) {
-        this.dataFolder = vital.getDirectory();
-        this.logger = vital.getLogger();
+    public FileManager(final File dataFolder) {
+        this.dataFolder = dataFolder;
     }
 
-    // Holds static files
     private final Map<String, YamlConfiguration> files = new HashMap<>();
 
-    // Holds the folders to load dynamic files in
     private final Set<CustomFile> customFiles = new HashSet<>();
     private final Set<String> folders = new HashSet<>();
 
@@ -57,23 +49,48 @@ public class FileManager {
 
         // Creates the custom folders.
         for (String folder : this.folders) {
-            Path resolvedFolder = new File(this.dataFolder, folder).toPath();
+            File file = new File(this.dataFolder, folder);
 
-            if (!Files.exists(resolvedFolder)) {
-                // Create directory.
+            if (!file.exists()) {
                 try {
-                    Files.createDirectory(resolvedFolder);
-                } catch (IOException e) {
-                    this.logger.error(String.format("Failed to create directory: %s.", resolvedFolder.toFile().getName()));
+                    file.mkdir();
+                } catch (Exception exception) {
+                    exception.printStackTrace();
                 }
 
-                // extract files if needed.
-                FileUtil.extracts(FileManager.class, String.format("/%s/", folder), resolvedFolder, true);
+                FileUtil.extracts(FileManager.class, String.format("/%s/", folder), file.toPath(), true);
+            }
 
-                // get all files with recursion
-                loadFiles(resolvedFolder.toFile(), folder);
-            } else {
-                loadFiles(resolvedFolder.toFile(), "");
+            final File[] files = file.listFiles();
+
+            if (files == null) return;
+
+            for (File key : files) {
+                if (key.isDirectory()) {
+                    String[] dir = file.list();
+
+                    if (dir == null) continue;
+
+                    for (String pair : dir) {
+                        if (!pair.endsWith(".yml")) continue;
+
+                        final CustomFile customFile = new CustomFile(file).apply(pair);
+
+                        if (customFile != null && customFile.exists()) {
+                            this.customFiles.add(customFile);
+                        }
+                    }
+                } else {
+                    final String name = file.getName();
+
+                    if (!name.endsWith(".yml")) continue;
+
+                    final CustomFile customFile = new CustomFile(file).apply(name);
+
+                    if (customFile != null && customFile.exists()) {
+                        this.customFiles.add(customFile);
+                    }
+                }
             }
         }
     }
@@ -97,7 +114,7 @@ public class FileManager {
         try {
             this.files.put(file, YamlConfiguration.loadConfiguration(key));
         } catch (Exception exception) {
-            this.logger.error(String.format("Failed to load: %s.", file));
+            exception.printStackTrace();
         }
 
         return this;
@@ -118,16 +135,11 @@ public class FileManager {
         try {
             if (!file.exists()) {
                 FileUtil.extract(FileManager.class, fileName, this.dataFolder.toPath(), false);
-
-                this.logger.info(String.format("Copied %s because it did not exist.", fileName));
-            } else {
-                this.logger.info(String.format("Loading the file %s.", fileName));
             }
 
-            // Add other file
             this.files.put(fileName, YamlConfiguration.loadConfiguration(file));
         } catch (Exception exception) {
-            this.logger.error(String.format("Failed to load or create %s.", fileName));
+            exception.printStackTrace();
         }
 
         return this;
@@ -150,7 +162,7 @@ public class FileManager {
         try {
             configuration.save(new File(this.dataFolder, fileName));
         } catch (Exception exception) {
-            this.logger.error(String.format("Failed to save: %s", fileName));
+            exception.printStackTrace();
         }
 
         return this;
@@ -190,56 +202,12 @@ public class FileManager {
             try {
                 configuration.save(key);
                 configuration.load(key);
-            } catch (IOException exception) {
-                this.logger.error(String.format("Failed to load: %s.", key));
+            } catch (Exception exception) {
+                exception.printStackTrace();
             }
         });
 
         return this;
-    }
-
-    /**
-     * Load files with one level of recursion
-     *
-     * @param resolvedFolder the {@link Path} to check
-     * @since 1.8
-     */
-    private void loadFiles(final File resolvedFolder, final String folder) {
-        File[] filesList = resolvedFolder.listFiles();
-
-        if (filesList != null) {
-            for (File directory : filesList) {
-                if (directory.isDirectory()) {
-                    String[] dir = directory.list();
-
-                    if (dir != null) {
-                        for (String name : dir) {
-                            if (!name.endsWith(".yml")) continue;
-
-                            final CustomFile file = new CustomFile(this.logger, directory).apply(name);
-
-                            if (file != null && file.exists()) {
-                                this.customFiles.add(file);
-
-                                this.logger.info(String.format("Loaded new custom file: %1$s/%2$s/%3$s.", folder, directory.getName(), name));
-                            }
-                        }
-                    }
-                } else {
-                    String name = directory.getName();
-
-                    if (!name.endsWith(".yml")) continue;
-
-                    final CustomFile file = new CustomFile(this.logger, resolvedFolder).apply(name);
-
-                    if (file != null && file.exists()) {
-                        this.customFiles.add(file);
-
-                        this.logger.info(String.format("Loaded new custom file: %1$s/%2$s.", folder, name));
-                    }
-                }
-            }
-        }
     }
 
     /**
@@ -266,17 +234,15 @@ public class FileManager {
     }
 
     /**
-     * Removes a {@link CustomFile} from the custom files map
+     * Removes a {@link CustomFile} from the custom files map.
      *
      * @param file the file to remove
      */
     public void removeCustomFile(@NotNull final String file) {
         @Nullable final CustomFile customFile = getCustomFile(file);
 
-        // If null, return.
         if (customFile == null) return;
 
-        // Remove if not null.
         this.customFiles.remove(customFile);
     }
 
@@ -341,8 +307,7 @@ public class FileManager {
      * @since 1.8
      */
     public @NotNull final FileManager addFolder(@NotNull final String folder) {
-        if (folder.isEmpty()) return this;
-        if (this.folders.contains(folder)) return this;
+        if (folder.isEmpty() || this.folders.contains(folder)) return this;
 
         this.folders.add(folder);
 

@@ -6,10 +6,6 @@ plugins {
     java
 }
 
-base {
-    archivesName.set(rootProject.name)
-}
-
 rootProject.group = "me.badbones69.crazybot"
 rootProject.version = "1.1.1"
 
@@ -48,6 +44,13 @@ java {
 }
 
 tasks {
+    shadowJar {
+        archiveFileName.set("CrazyBot.jar")
+        archiveClassifier.set("")
+
+        mergeServiceFiles()
+    }
+
     compileJava {
         options.encoding = Charsets.UTF_8.name()
         options.release.set(21)

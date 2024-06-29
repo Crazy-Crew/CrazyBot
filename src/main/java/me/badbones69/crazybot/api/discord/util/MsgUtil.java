@@ -35,6 +35,10 @@ public class MsgUtil {
         return command.substring(1).split(" ");
     }
 
+    public static String getCommand(final String prefix, final String command) {
+        return command.substring(prefix.length()).toLowerCase();
+    }
+
     /**
      * Send a message to a channel
      *

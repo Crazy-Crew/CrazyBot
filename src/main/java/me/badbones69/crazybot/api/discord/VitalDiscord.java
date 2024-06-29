@@ -1,43 +1,60 @@
 package me.badbones69.crazybot.api.discord;
 
-import ch.qos.logback.classic.Logger;
+import me.badbones69.crazybot.api.discord.commands.CommandHandler;
 import me.badbones69.crazybot.api.discord.listeners.GenericListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
-import java.io.File;
+import org.jetbrains.annotations.NotNull;
+import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.Properties;
 
 public abstract class VitalDiscord {
 
-    private final Logger logger;
-    private final File file;
-
+    protected final CommandHandler commandHandler;
+    protected final Properties properties;
     protected final JDA jda;
 
-    public VitalDiscord(final Logger logger, final String folder, final String token, final List<GatewayIntent> intents, final List<CacheFlag> flags) {
-        this.logger = logger;
+    public VitalDiscord(final String token, final String prefix, final List<GatewayIntent> intents, final List<CacheFlag> flags) {
+        final Properties properties = new Properties();
 
-        this.file = new File(folder);
+        final ClassLoader loader = Thread.currentThread().getContextClassLoader();
+
+        try {
+            properties.load(loader.getResourceAsStream("build.properties"));
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
+        }
+
+        this.properties = properties;
 
         this.jda = JDABuilder.createDefault(token, intents).enableCache(flags).addEventListeners(new GenericListener(this)).build();
+
+        this.commandHandler = new CommandHandler(this.jda);
     }
 
-    public abstract void ready(final Guild guild);
+    public void ready(final Guild guild) {}
 
-    public abstract void start();
+    public void start() {}
 
-    public abstract void ready();
+    public void ready() {}
 
-    public abstract void stop();
+    public void stop() {}
 
-    public final File getDirectory() {
-        return this.file;
-    }
+    public static <T extends VitalDiscord> T getInstance(@NotNull final Class<T> clazz) {
+        try {
+            Constructor<T> constructor = clazz.getDeclaredConstructor();
 
-    public final Logger getLogger() {
-        return this.logger;
+            constructor.setAccessible(true);
+
+            return constructor.newInstance();
+        } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            throw new RuntimeException("Error creating instance of " + clazz, e);
+        }
     }
 }

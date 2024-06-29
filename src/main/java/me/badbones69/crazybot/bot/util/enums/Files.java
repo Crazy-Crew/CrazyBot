@@ -14,7 +14,7 @@ public enum Files {
     }
 
     public final FileConfiguration getConfiguration() {
-        return Main.getFileManager().getFile(getStrippedName());
+        return Main.getFileManager().getFile(getFileName());
     }
 
     public final String getStrippedName() {

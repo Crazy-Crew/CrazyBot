@@ -28,14 +28,13 @@ public class Main extends Vital {
                         GatewayIntent.GUILD_MEMBERS,
                         GatewayIntent.GUILD_MESSAGES,
                         GatewayIntent.GUILD_PRESENCES,
-
+                        GatewayIntent.DIRECT_MESSAGES,
 
                         GatewayIntent.MESSAGE_CONTENT
                 ),
                 List.of(
                         CacheFlag.ACTIVITY
-                ),
-                "crazybot"
+                )
         ).start();
     }
 

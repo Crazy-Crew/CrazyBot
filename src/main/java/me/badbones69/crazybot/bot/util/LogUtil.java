@@ -6,6 +6,10 @@ import org.slf4j.LoggerFactory;
 
 public class LogUtil {
 
+    public LogUtil() {
+        throw new AssertionError("This class cannot be instantiated");
+    }
+
     private static final Logger logger = (Logger) LoggerFactory.getLogger(CrazyBot.class);
 
     public static void info(final String message) {

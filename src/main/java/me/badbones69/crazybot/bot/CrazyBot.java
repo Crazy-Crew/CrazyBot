@@ -1,12 +1,8 @@
 package me.badbones69.crazybot.bot;
 
 import me.badbones69.crazybot.api.discord.VitalDiscord;
-import me.badbones69.crazybot.api.discord.commands.CommandHandler;
-import me.badbones69.crazybot.bot.util.LogUtil;
-import me.badbones69.crazybot.bot.commands.AboutCommand;
-import me.badbones69.crazybot.bot.managers.StorageManager;
-import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Guild;
+import me.badbones69.crazybot.api.discord.command.CommandMap;
+import me.badbones69.crazybot.bot.commands.BasicCommand;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.jetbrains.annotations.NotNull;
@@ -14,44 +10,18 @@ import java.util.List;
 
 public class CrazyBot extends VitalDiscord {
 
-    private final CommandHandler commandHandler;
-    private final StorageManager storageManager;
-
-    private final String prefix;
-
-    public CrazyBot(@NotNull final String token, @NotNull final String prefix, @NotNull final List<GatewayIntent> keys, @NotNull final List<CacheFlag> flags, @NotNull final String folder) {
-        super(LogUtil.getLogger(), folder, token, keys, flags);
-
-        this.commandHandler = new CommandHandler(this.jda);
-
-        this.storageManager = new StorageManager(getLogger(), getDirectory());
-
-        this.prefix = prefix;
-    }
-
-    @Override
-    public void ready(@NotNull final Guild guild) {
-        this.commandHandler.setGuild(guild);
-    }
-
-    @Override
-    public void start() {
-
+    public CrazyBot(@NotNull final String token, @NotNull final String prefix, @NotNull final List<GatewayIntent> keys, @NotNull final List<CacheFlag> flags) {
+        super(token, prefix, keys, flags);
     }
 
     @Override
     public void ready() {
-        List.of(
-                new AboutCommand("about", "Shows the information about the Discord Bot.", Permission.MESSAGE_SEND)
-        ).forEach(this.commandHandler::addCommand);
-    }
+        CommandMap map = new CommandMap(this.jda);
 
-    @Override
-    public void stop() {
+        map.registerCommand(new BasicCommand());
 
-    }
-
-    public final StorageManager getStorageManager() {
-        return this.storageManager;
+        /*List.of(
+                new AboutCommand("Shows the information about the Discord Bot.", Permission.MESSAGE_SEND)
+        ).forEach(this.commandHandler::addCommand);*/
     }
 }

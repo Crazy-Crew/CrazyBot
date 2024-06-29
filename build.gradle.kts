@@ -1,4 +1,8 @@
+import com.ryderbelserion.feather.tools.latestCommitHash
+
 plugins {
+    id("com.ryderbelserion.feather-core") version "0.0.1"
+
     id("io.github.goooler.shadow") version "8.1.7"
 
     application
@@ -7,7 +11,7 @@ plugins {
 }
 
 rootProject.group = "me.badbones69.crazybot"
-rootProject.version = "1.1.1"
+rootProject.version = latestCommitHash()
 
 repositories {
     maven("https://repo.crazycrew.us/releases")
@@ -58,5 +62,13 @@ tasks {
 
     application {
         mainClass.set("${rootProject.group}.Main")
+    }
+
+    processResources {
+        inputs.properties("version" to rootProject.version)
+
+        filesMatching("build.properties") {
+            expand(inputs.properties)
+        }
     }
 }

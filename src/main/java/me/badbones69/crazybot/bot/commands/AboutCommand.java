@@ -1,8 +1,8 @@
 package me.badbones69.crazybot.bot.commands;
 
 import com.ryderbelserion.vital.core.util.StringUtil;
-import me.badbones69.crazybot.api.discord.commands.CommandContext;
-import me.badbones69.crazybot.api.discord.commands.CommandEngine;
+import me.badbones69.crazybot.api.discord.command.Command;
+import me.badbones69.crazybot.api.discord.command.CommandContext;
 import me.badbones69.crazybot.api.discord.embed.Embed;
 import me.badbones69.crazybot.api.discord.embed.EmbedColor;
 import net.dv8tion.jda.api.JDA;
@@ -12,14 +12,18 @@ import net.dv8tion.jda.api.entities.SelfUser;
 import net.dv8tion.jda.api.entities.User;
 import java.util.List;
 
-public class AboutCommand extends CommandEngine {
+public class AboutCommand extends Command {
 
-    public AboutCommand(final String name, final String description, final Permission permission) {
-        super(name, description, permission, true);
+    private final String version;
+
+    public AboutCommand(final String version) {
+        super(true, Permission.MESSAGE_SEND, "Shows information about the discord bot.", "about");
+
+        this.version = version;
     }
 
     @Override
-    protected void perform(final CommandContext context) {
+    public void execute(CommandContext context) {
         final User author = context.getAuthor();
         final SelfUser bot = context.getBot();
 
@@ -58,7 +62,7 @@ public class AboutCommand extends CommandEngine {
 
         embed.addField("Notice a Bug?", "[Click me to submit a bug report](https://github.com/Crazy-Crew/CrazyBot/issues)", false);
 
-        embed.addField("Version", String.format("%1$s", ""));
+        embed.addField("Version", String.format("`%s`", this.version));
 
         context.reply(embed.build(), true);
     }

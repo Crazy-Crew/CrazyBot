@@ -1,6 +1,5 @@
 package me.badbones69.crazybot.api.discord;
 
-import me.badbones69.crazybot.api.discord.commands.CommandHandler;
 import me.badbones69.crazybot.api.discord.listeners.GenericListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -16,11 +15,10 @@ import java.util.Properties;
 
 public abstract class VitalDiscord {
 
-    protected final CommandHandler commandHandler;
     protected final Properties properties;
     protected final JDA jda;
 
-    public VitalDiscord(final String token, final String prefix, final List<GatewayIntent> intents, final List<CacheFlag> flags) {
+    public VitalDiscord(final String token, final List<GatewayIntent> intents, final List<CacheFlag> flags) {
         final Properties properties = new Properties();
 
         final ClassLoader loader = Thread.currentThread().getContextClassLoader();
@@ -34,8 +32,6 @@ public abstract class VitalDiscord {
         this.properties = properties;
 
         this.jda = JDABuilder.createDefault(token, intents).enableCache(flags).addEventListeners(new GenericListener(this)).build();
-
-        this.commandHandler = new CommandHandler(this.jda);
     }
 
     public void ready(final Guild guild) {}

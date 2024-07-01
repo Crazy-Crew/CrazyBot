@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 public class Main extends Vital {
 
-    private static final File dataFolder = new File("crazybot");
+    private static final File dataFolder = new File("vital");
     private static final FileManager fileManager = new FileManager(dataFolder);
 
     public static void main(final String[] args) {

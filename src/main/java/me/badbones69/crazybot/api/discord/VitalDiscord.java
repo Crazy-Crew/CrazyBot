@@ -18,7 +18,9 @@ public abstract class VitalDiscord {
     protected final Properties properties;
     protected final JDA jda;
 
-    public VitalDiscord(final String token, final List<GatewayIntent> intents, final List<CacheFlag> flags) {
+    public static String prefix = "";
+
+    public VitalDiscord(final String token, final String prefix, final List<GatewayIntent> intents, final List<CacheFlag> flags) {
         final Properties properties = new Properties();
 
         final ClassLoader loader = Thread.currentThread().getContextClassLoader();
@@ -31,7 +33,13 @@ public abstract class VitalDiscord {
 
         this.properties = properties;
 
+        setPrefix(prefix);
+
         this.jda = JDABuilder.createDefault(token, intents).enableCache(flags).addEventListeners(new GenericListener(this)).build();
+    }
+
+    public static void setPrefix(final String prefix) {
+        VitalDiscord.prefix = prefix;
     }
 
     public void ready(final Guild guild) {}

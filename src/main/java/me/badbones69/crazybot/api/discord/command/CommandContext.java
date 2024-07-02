@@ -1,5 +1,6 @@
 package me.badbones69.crazybot.api.discord.command;
 
+import me.badbones69.crazybot.api.discord.VitalDiscord;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -86,7 +87,7 @@ public class CommandContext {
     }
 
     public final String getCommand() {
-        return this.command.replaceFirst("!", "");
+        return this.command.replaceFirst(VitalDiscord.prefix, "");
     }
 
     public final String[] getArgs() {

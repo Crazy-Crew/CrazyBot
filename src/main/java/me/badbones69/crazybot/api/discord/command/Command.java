@@ -1,5 +1,6 @@
 package me.badbones69.crazybot.api.discord.command;
 
+import me.badbones69.crazybot.api.discord.VitalDiscord;
 import me.badbones69.crazybot.api.discord.util.MsgUtil;
 import me.badbones69.crazybot.api.discord.util.RoleUtil;
 import net.dv8tion.jda.api.Permission;
@@ -40,7 +41,7 @@ public abstract class Command extends ListenerAdapter {
 
         final String message = event.getMessage().getContentStripped();
 
-        if (!MsgUtil.isCommand("!", message)) return;
+        if (!MsgUtil.isCommand(VitalDiscord.prefix, message)) return;
 
         final User user = event.getAuthor();
 
@@ -54,6 +55,6 @@ public abstract class Command extends ListenerAdapter {
 
         if (!hasPermission) return;
 
-        execute(new CommandContext(event, MsgUtil.getCommand("!", message), MsgUtil.getArguments(message)));
+        execute(new CommandContext(event, MsgUtil.getCommand(VitalDiscord.prefix, message), MsgUtil.getArguments(message)));
     }
 }

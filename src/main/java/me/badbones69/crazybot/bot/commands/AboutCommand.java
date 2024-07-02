@@ -32,7 +32,7 @@ public class AboutCommand extends Command {
                         StringUtil.convertList(
                                 List.of(
                                         String.format("Hello, My name is %s at your service.", bot.getAsMention()),
-                                        "If you need to know how to use me, please type /help for a list of commands."
+                                        "If you need to know how to use me, please type !help for a list of commands."
                                 )
                         )
                 )

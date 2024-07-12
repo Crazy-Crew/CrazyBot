@@ -1,7 +1,6 @@
 package me.badbones69.crazybot.bot;
 
 import me.badbones69.crazybot.api.discord.VitalDiscord;
-import me.badbones69.crazybot.api.discord.command.CommandMap;
 import me.badbones69.crazybot.bot.commands.AboutCommand;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
@@ -16,10 +15,9 @@ public class CrazyBot extends VitalDiscord {
 
     @Override
     public void ready() {
-        CommandMap map = new CommandMap(this.jda);
-
         List.of(
                 new AboutCommand(this.properties.getProperty("version"))
-        ).forEach(map::registerCommand);
+                //new SmugCommand()
+        ).forEach(this.commandHandler::registerCommand);
     }
 }

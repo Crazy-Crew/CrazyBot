@@ -10,6 +10,9 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.SelfUser;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
+import net.dv8tion.jda.api.interactions.commands.build.CommandData;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import java.util.List;
 
 public class AboutCommand extends Command {
@@ -17,14 +20,19 @@ public class AboutCommand extends Command {
     private final String version;
 
     public AboutCommand(final String version) {
-        super(true, Permission.MESSAGE_SEND, "Shows information about the discord bot.", "about");
+        super(Permission.MESSAGE_SEND, "Shows information about the discord bot.", "about");
 
         this.version = version;
     }
 
     @Override
+    public CommandData getCommandData() {
+        return Commands.slash("about", "Shows information about the discord bot.").setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MESSAGE_SEND));
+    }
+
+    @Override
     public void execute(CommandContext context) {
-        final User author = context.getAuthor();
+        final User author = context.getUser();
         final SelfUser bot = context.getBot();
 
         final Embed embed = new Embed()
@@ -52,7 +60,7 @@ public class AboutCommand extends Command {
             ), false);
 
             embed.thumbnail(bot, guild)
-                    .author(author, guild)
+                    .author(author)
                     .footer(String.format("Average Ping: %s", jda.getGatewayPing()), guild.getIconUrl());
         } else {
             embed.thumbnail(bot)

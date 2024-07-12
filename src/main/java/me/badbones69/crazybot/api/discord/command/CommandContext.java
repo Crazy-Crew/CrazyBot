@@ -3,6 +3,7 @@ package me.badbones69.crazybot.api.discord.command;
 import me.badbones69.crazybot.api.discord.VitalDiscord;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.SelfUser;
 import net.dv8tion.jda.api.entities.User;
@@ -94,8 +95,12 @@ public class CommandContext {
         return this.args;
     }
 
-    public final User getAuthor() {
+    public final User getUser() {
         return this.slashEvent != null ? this.slashEvent.getUser() : this.receiveEvent.getAuthor();
+    }
+
+    public final Member getMember() {
+        return this.slashEvent != null ? this.slashEvent.getMember() : this.receiveEvent.getMember();
     }
 
     public final Guild getGuild() {

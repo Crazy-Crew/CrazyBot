@@ -39,6 +39,10 @@ public class MsgUtil {
         return command.substring(prefix.length()).toLowerCase();
     }
 
+    public static String getCommandWithoutPrefix(final String prefix, final String command) {
+        return getCommand(prefix, command).replace(prefix, "");
+    }
+
     /**
      * Send a message to a channel
      *

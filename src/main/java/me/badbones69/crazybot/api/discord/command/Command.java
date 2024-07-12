@@ -1,60 +1,41 @@
 package me.badbones69.crazybot.api.discord.command;
 
-import me.badbones69.crazybot.api.discord.VitalDiscord;
-import me.badbones69.crazybot.api.discord.util.MsgUtil;
-import me.badbones69.crazybot.api.discord.util.RoleUtil;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import org.jetbrains.annotations.NotNull;
+import net.dv8tion.jda.api.interactions.commands.build.CommandData;
+import org.jetbrains.annotations.Nullable;
 
-public abstract class Command extends ListenerAdapter {
+public abstract class Command {
 
-    protected final boolean isSlashCommand;
     protected final Permission permission;
     protected final String description;
     protected final String command;
 
-    public Command(final boolean isSlashCommand, final Permission permission, final String description, final String command) {
-        this.isSlashCommand = isSlashCommand;
+    public Command(final Permission permission, final String description, final String command) {
         this.description = description;
         this.permission = permission;
         this.command = command;
     }
 
-    public void execute(CommandContext context) {}
+    public void execute(final CommandContext context) {}
 
-    @Override
-    public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
-        if (!this.isSlashCommand || !event.getName().equals(this.command) || this.command.isBlank()) return;
-
-        execute(new CommandContext(event, this.command));
+    @Nullable
+    public CommandData getCommandData() {
+        return null;
     }
 
-    @Override
-    public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-        if (this.isSlashCommand || event.getAuthor().isBot() || event.isWebhookMessage()) return;
+    public final boolean isSlashCommand() {
+        return getCommandData() != null;
+    }
 
-        final String message = event.getMessage().getContentStripped();
+    public final Permission getPermission() {
+        return this.permission;
+    }
 
-        if (!MsgUtil.isCommand(VitalDiscord.prefix, message)) return;
+    public final String getDescription() {
+        return this.description;
+    }
 
-        final User user = event.getAuthor();
-
-        if (!(user instanceof Member member)) return;
-
-        final Role role = RoleUtil.getHighestRole(member);
-
-        final boolean hasPermission = role == null ?
-                member.hasPermission(this.permission) :
-                role.hasPermission(this.permission);
-
-        if (!hasPermission) return;
-
-        execute(new CommandContext(event, MsgUtil.getCommand(VitalDiscord.prefix, message), MsgUtil.getArguments(message)));
+    public final String getCommand() {
+        return this.command;
     }
 }

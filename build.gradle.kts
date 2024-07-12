@@ -26,9 +26,9 @@ dependencies {
         exclude("org.yaml", "snakeyaml")
     }
 
-    implementation("ch.qos.logback", "logback-classic", "1.5.6")
-
     implementation("com.ryderbelserion.vital", "core", "73050b4")
+
+    implementation("ch.qos.logback", "logback-classic", "1.5.6")
 
     implementation("org.jetbrains", "annotations", "24.1.0")
 

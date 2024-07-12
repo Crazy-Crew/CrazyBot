@@ -170,6 +170,18 @@ public class Embed {
     }
 
     /**
+     * Sets the thumbnail using a user object.
+     *
+     * @param user the user to use
+     * @return the embed class with updated information
+     */
+    public final Embed author(final Member user) {
+        author(user.getEffectiveName(), user.getEffectiveAvatarUrl());
+
+        return this;
+    }
+
+    /**
      * Set the thumbnail using the user object.
      *
      * @param user the member in question

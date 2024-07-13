@@ -1,6 +1,6 @@
 package me.badbones69.crazybot.api.discord.command;
 
-import me.badbones69.crazybot.api.discord.VitalDiscord;
+import me.badbones69.crazybot.api.discord.JavaBot;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -87,8 +87,8 @@ public class CommandContext {
         return this;
     }
 
-    public final String getCommand() {
-        return this.command.replaceFirst(VitalDiscord.prefix, "");
+    public final String getCommand(final String prefix) {
+        return this.command.replaceFirst(prefix, "");
     }
 
     public final String[] getArgs() {

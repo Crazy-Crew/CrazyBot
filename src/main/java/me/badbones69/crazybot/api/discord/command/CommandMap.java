@@ -6,16 +6,26 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommandHandler {
+public class CommandMap {
 
     protected Map<String, Command> commands;
 
     private final JDA jda;
 
-    public CommandHandler(final JDA jda) {
+    private String prefix;
+
+    public CommandMap(final JDA jda) {
         this.commands = new HashMap<>();
 
         this.jda = jda;
+    }
+
+    public final String getPrefix() {
+        return this.prefix;
+    }
+
+    public void setPrefix(final String prefix) {
+        this.prefix = prefix;
     }
 
     public void registerCommand(final Command command) {

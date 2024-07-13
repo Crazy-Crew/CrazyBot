@@ -35,10 +35,24 @@ public class MsgUtil {
         return command.substring(1).split(" ");
     }
 
+    /**
+     * Get the command and return it.
+     *
+     * @param prefix the prefix
+     * @param command the command
+     * @return the string
+     */
     public static String getCommand(final String prefix, final String command) {
         return command.substring(prefix.length()).toLowerCase();
     }
 
+    /**
+     * Get command without prefix from message.
+     *
+     * @param prefix the prefix to remove
+     * @param command the command to check
+     * @return the string without the prefix
+     */
     public static String getCommandWithoutPrefix(final String prefix, final String command) {
         return getCommand(prefix, command).replace(prefix, "");
     }

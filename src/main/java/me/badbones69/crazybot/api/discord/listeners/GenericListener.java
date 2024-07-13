@@ -1,6 +1,6 @@
 package me.badbones69.crazybot.api.discord.listeners;
 
-import me.badbones69.crazybot.api.discord.VitalDiscord;
+import me.badbones69.crazybot.api.discord.JavaBot;
 import me.badbones69.crazybot.api.discord.command.Command;
 import me.badbones69.crazybot.api.discord.command.CommandContext;
 import me.badbones69.crazybot.api.discord.util.MsgUtil;
@@ -18,9 +18,9 @@ import org.jetbrains.annotations.NotNull;
 
 public class GenericListener extends ListenerAdapter {
 
-    private final VitalDiscord vital;
+    private final JavaBot vital;
 
-    public GenericListener(final VitalDiscord vital) {
+    public GenericListener(final JavaBot vital) {
         this.vital = vital;
     }
 
@@ -45,17 +45,19 @@ public class GenericListener extends ListenerAdapter {
 
         final String message = event.getMessage().getContentStripped();
 
-        if (!MsgUtil.isCommand(VitalDiscord.prefix, message)) return;
+        final String prefix = this.vital.getCommandMap().getPrefix();
+
+        if (prefix.isEmpty() || !MsgUtil.isCommand(prefix, message)) return;
 
         final Member member = event.getMember();
 
         if (member == null) return;
 
-        final Command command = this.vital.getCommandMap().getCommand(MsgUtil.getCommandWithoutPrefix(VitalDiscord.prefix, message));
+        final Command command = this.vital.getCommandMap().getCommand(MsgUtil.getCommandWithoutPrefix(prefix, message));
 
         if (command == null || hasPermission(member, command)) return;
 
-        command.execute(new CommandContext(event, MsgUtil.getCommand(VitalDiscord.prefix, message), MsgUtil.getArguments(message)));
+        command.execute(new CommandContext(event, MsgUtil.getCommand(prefix, message), MsgUtil.getArguments(message)));
     }
 
     private boolean hasPermission(Member member, Command command) {

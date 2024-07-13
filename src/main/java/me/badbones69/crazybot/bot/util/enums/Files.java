@@ -1,11 +1,14 @@
 package me.badbones69.crazybot.bot.util.enums;
 
-import me.badbones69.crazybot.Main;
+import me.badbones69.crazybot.api.discord.JavaBot;
+import me.badbones69.crazybot.bot.CrazyBot;
 import org.simpleyaml.configuration.file.FileConfiguration;
 
 public enum Files {
 
     config("config.yml");
+
+    private final CrazyBot bot = JavaBot.getInstance(CrazyBot.class);
 
     private final String fileName;
 
@@ -14,14 +17,6 @@ public enum Files {
     }
 
     public final FileConfiguration getConfiguration() {
-        return Main.getFileManager().getFile(getFileName());
-    }
-
-    public final String getStrippedName() {
-        return getFileName().replace(".yml", "");
-    }
-
-    public final String getFileName() {
-        return this.fileName;
+        return this.bot.getFileManager().getFile(this.fileName);
     }
 }

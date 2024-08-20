@@ -1,9 +1,9 @@
 import com.ryderbelserion.feather.tools.latestCommitHash
 
 plugins {
-    id("com.ryderbelserion.feather-core") version "0.0.1"
+    id("com.ryderbelserion.feather-core") version "0.0.4"
 
-    id("io.github.goooler.shadow") version "8.1.7"
+    alias(libs.plugins.shadowJar)
 
     application
 
@@ -14,7 +14,7 @@ rootProject.group = "me.badbones69.crazybot"
 rootProject.version = latestCommitHash()
 
 repositories {
-    maven("https://repo.crazycrew.us/releases")
+    maven("https://repo.crazycrew.us/snapshots")
 
     maven("https://jitpack.io")
 
@@ -22,17 +22,13 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.Carleslc.Simple-YAML", "Simple-Yaml", "1.8.4") {
-        exclude("org.yaml", "snakeyaml")
-    }
+    implementation(libs.vital.common)
 
-    implementation("com.ryderbelserion.vital", "core", "73050b4")
+    implementation(libs.jetbrains)
 
-    implementation("ch.qos.logback", "logback-classic", "1.5.6")
+    implementation(libs.logback)
 
-    implementation("org.jetbrains", "annotations", "24.1.0")
-
-    implementation("net.dv8tion", "JDA", "5.0.0-beta.24") {
+    implementation(libs.jda) {
         exclude("club.minnced", "opus-java")
     }
 }
@@ -40,7 +36,7 @@ dependencies {
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(21))
-        vendor.set(JvmVendorSpec.ADOPTIUM)
+        vendor.set(JvmVendorSpec.AMAZON)
     }
 
     withJavadocJar()

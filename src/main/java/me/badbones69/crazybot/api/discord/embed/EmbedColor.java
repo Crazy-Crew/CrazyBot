@@ -1,6 +1,6 @@
 package me.badbones69.crazybot.api.discord.embed;
 
-import com.ryderbelserion.vital.core.util.ColorUtil;
+import com.ryderbelserion.vital.common.utils.ColorUtil;
 import java.awt.Color;
 
 public enum EmbedColor {

@@ -1,7 +1,7 @@
 package me.badbones69.crazybot.bot;
 
+import com.ryderbelserion.vital.common.managers.files.FileManager;
 import me.badbones69.crazybot.api.discord.JavaBot;
-import me.badbones69.crazybot.api.discord.util.files.FileManager;
 import me.badbones69.crazybot.bot.commands.AboutCommand;
 import me.badbones69.crazybot.bot.util.config.ConfigFile;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -24,8 +24,8 @@ public class CrazyBot extends JavaBot {
     public CrazyBot() {
         this.dataFolder = new File("vital");
 
-        this.fileManager = new FileManager(this.dataFolder);
-        this.fileManager.addFile("config.yml").init();
+        this.fileManager = new FileManager();
+        this.fileManager.addFile(new File(this.dataFolder, "config.yml")).init();
     }
 
     @Override
@@ -58,7 +58,12 @@ public class CrazyBot extends JavaBot {
     }
 
     @Override
-    public final File getDataFolder() {
+    public final FileManager getFileManager() {
+        return this.fileManager;
+    }
+
+    @Override
+    public final File getDirectory() {
         return this.dataFolder;
     }
 
@@ -95,7 +100,8 @@ public class CrazyBot extends JavaBot {
         super.ready(guild);
     }
 
-    public final FileManager getFileManager() {
-        return this.fileManager;
+    @Override
+    public final String getPluginName() {
+        return "CrazyBot";
     }
 }

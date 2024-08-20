@@ -1,6 +1,6 @@
 package me.badbones69.crazybot.bot.commands;
 
-import com.ryderbelserion.vital.core.util.StringUtil;
+import com.ryderbelserion.vital.common.utils.StringUtil;
 import me.badbones69.crazybot.api.discord.command.Command;
 import me.badbones69.crazybot.api.discord.command.CommandContext;
 import me.badbones69.crazybot.api.discord.embed.Embed;

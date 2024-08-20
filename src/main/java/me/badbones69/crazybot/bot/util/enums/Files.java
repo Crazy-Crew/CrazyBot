@@ -2,7 +2,7 @@ package me.badbones69.crazybot.bot.util.enums;
 
 import me.badbones69.crazybot.api.discord.JavaBot;
 import me.badbones69.crazybot.bot.CrazyBot;
-import org.simpleyaml.configuration.file.FileConfiguration;
+import org.simpleyaml.configuration.file.YamlFile;
 
 public enum Files {
 
@@ -16,7 +16,7 @@ public enum Files {
         this.fileName = fileName;
     }
 
-    public final FileConfiguration getConfiguration() {
-        return this.bot.getFileManager().getFile(this.fileName);
+    public final YamlFile getConfiguration() {
+        return this.bot.getFileManager().getFile(this.fileName).getConfiguration();
     }
 }

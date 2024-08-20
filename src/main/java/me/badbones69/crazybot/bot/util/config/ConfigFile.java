@@ -1,11 +1,11 @@
 package me.badbones69.crazybot.bot.util.config;
 
 import me.badbones69.crazybot.bot.util.enums.Files;
-import org.simpleyaml.configuration.file.FileConfiguration;
+import org.simpleyaml.configuration.file.YamlFile;
 
 public class ConfigFile {
 
-    private static final FileConfiguration config = Files.config.getConfiguration();
+    private static final YamlFile config = Files.config.getConfiguration();
 
     public static String getToken() {
         return config.getString("Settings.Token", "");

@@ -1,5 +1,6 @@
 package me.badbones69.crazybot.api.discord;
 
+import com.ryderbelserion.vital.common.VitalAPI;
 import me.badbones69.crazybot.api.discord.command.CommandMap;
 import me.badbones69.crazybot.api.discord.listeners.GenericListener;
 import net.dv8tion.jda.api.JDA;
@@ -8,14 +9,13 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.jetbrains.annotations.NotNull;
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Properties;
 
-public abstract class JavaBot {
+public abstract class JavaBot implements VitalAPI {
 
     private final Properties properties;
     private CommandMap commandMap;
@@ -33,6 +33,8 @@ public abstract class JavaBot {
         }
 
         this.properties = properties;
+
+        VitalAPI.super.start();
     }
 
     public abstract List<GatewayIntent> getIntents();
@@ -42,8 +44,6 @@ public abstract class JavaBot {
     public abstract String getToken();
 
     public abstract String getPrefix();
-
-    public abstract File getDataFolder();
 
     public void ready(final Guild guild) {}
 

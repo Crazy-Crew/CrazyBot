@@ -3,6 +3,7 @@
 kotlin = "2.0.0"
 
 # Common
+adventure = "4.17.0"
 jetbrains = "24.1.0"
 vital = "2.7"
 
@@ -22,6 +23,11 @@ vital-common = { module = "com.ryderbelserion.vital:common", version.ref = "vita
 vital-paper = { module = "com.ryderbelserion.vital:paper", version.ref = "vital" }
 
 jetbrains = { module = "org.jetbrains:annotations", version.ref = "jetbrains" }
+
+# Kyori
+adventureMiniMessage = { module = "net.kyori:adventure-text-minimessage", version.ref = "adventure" }
+adventureLogger = { module = "net.kyori:adventure-text-logger-slf4j", version.ref = "adventure" }
+adventureApi = { module = "net.kyori:adventure-api", version.ref = "adventure" }
 
 # Kotlin
 kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }

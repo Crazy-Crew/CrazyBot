@@ -1,6 +1,7 @@
 package me.badbones69.crazybot.api.discord;
 
 import com.ryderbelserion.vital.common.VitalAPI;
+import com.ryderbelserion.vital.common.managers.files.FileManager;
 import me.badbones69.crazybot.api.discord.command.CommandMap;
 import me.badbones69.crazybot.api.discord.listeners.GenericListener;
 import net.dv8tion.jda.api.JDA;
@@ -8,20 +9,22 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
-import org.jetbrains.annotations.NotNull;
+import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
+import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Properties;
 
 public abstract class JavaBot implements VitalAPI {
 
+    private final FileManager fileManager;
+    private final ComponentLogger logger;
     private final Properties properties;
-    private CommandMap commandMap;
-    private JDA jda;
+    private final File directory;
 
     public JavaBot() {
+        VitalAPI.super.start();
+
         final Properties properties = new Properties();
 
         final ClassLoader loader = Thread.currentThread().getContextClassLoader();
@@ -32,10 +35,14 @@ public abstract class JavaBot implements VitalAPI {
             throw new RuntimeException(exception);
         }
 
+        this.directory = new File(getPluginName());
+        this.fileManager = new FileManager();
+        this.logger = ComponentLogger.logger(getPluginName());
         this.properties = properties;
-
-        VitalAPI.super.start();
     }
+
+    private CommandMap commandMap;
+    private JDA jda;
 
     public abstract List<GatewayIntent> getIntents();
 
@@ -68,15 +75,18 @@ public abstract class JavaBot implements VitalAPI {
         return this.jda;
     }
 
-    public static <T extends JavaBot> T getInstance(@NotNull Class<T> classObject) {
-        try {
-            Constructor<T> constructor = classObject.getDeclaredConstructor();
+    @Override
+    public final FileManager getFileManager() {
+        return this.fileManager;
+    }
 
-            constructor.setAccessible(true); // Allow access to private constructors
+    @Override
+    public final File getDirectory() {
+        return this.directory;
+    }
 
-            return constructor.newInstance();
-        } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException exception) {
-            throw new RuntimeException("Error creating instance of " + classObject, exception);
-        }
+    @Override
+    public final ComponentLogger getComponentLogger() {
+        return this.logger;
     }
 }

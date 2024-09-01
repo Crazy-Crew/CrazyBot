@@ -1,14 +1,14 @@
 package me.badbones69.crazybot.bot.util.enums;
 
-import me.badbones69.crazybot.api.discord.JavaBot;
 import me.badbones69.crazybot.bot.CrazyBot;
+import me.badbones69.crazybot.bot.util.MiscUtil;
 import org.simpleyaml.configuration.file.YamlFile;
 
 public enum Files {
 
     config("config.yml");
 
-    private final CrazyBot bot = JavaBot.getInstance(CrazyBot.class);
+    private final CrazyBot bot = MiscUtil.getInstance(CrazyBot.class);
 
     private final String fileName;
 

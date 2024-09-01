@@ -1,6 +1,5 @@
 package me.badbones69.crazybot.bot;
 
-import com.ryderbelserion.vital.common.managers.files.FileManager;
 import me.badbones69.crazybot.api.discord.JavaBot;
 import me.badbones69.crazybot.bot.commands.AboutCommand;
 import me.badbones69.crazybot.bot.util.config.ConfigFile;
@@ -17,16 +16,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class CrazyBot extends JavaBot {
 
-    private final FileManager fileManager;
-
-    private final File dataFolder;
-
-    public CrazyBot() {
-        this.dataFolder = new File("vital");
-
-        this.fileManager = new FileManager();
-        this.fileManager.addFile(new File(this.dataFolder, "config.yml")).init();
-    }
+    public CrazyBot() {}
 
     @Override
     public final List<GatewayIntent> getIntents() {
@@ -58,18 +48,12 @@ public class CrazyBot extends JavaBot {
     }
 
     @Override
-    public final FileManager getFileManager() {
-        return this.fileManager;
-    }
-
-    @Override
-    public final File getDirectory() {
-        return this.dataFolder;
-    }
-
-    @Override
     public void start() {
-        super.start();
+        getComponentLogger().warn("<red>Beans");
+
+        //getFileManager().addFile(new File(getDirectory(), "config.yml")).init();
+
+        //super.start();
     }
 
     @Override

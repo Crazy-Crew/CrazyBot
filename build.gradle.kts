@@ -14,7 +14,7 @@ rootProject.group = "me.badbones69.crazybot"
 rootProject.version = latestCommitHash()
 
 repositories {
-    maven("https://repo.crazycrew.us/snapshots")
+    maven("https://repo.crazycrew.us/releases")
 
     maven("https://jitpack.io")
 
@@ -22,6 +22,8 @@ repositories {
 }
 
 dependencies {
+    implementation(libs.adventureLogger)
+
     implementation(libs.vital.common)
 
     implementation(libs.jetbrains)
